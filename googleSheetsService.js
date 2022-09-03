@@ -1,6 +1,8 @@
 const { google } = require("googleapis");
 const sheets = google.sheets("v4");
 const SCOPES = ["https://www.googleapis.com/auth/spreadsheets"];
+const dotEnv = require("dotenv");
+dotEnv.config();
 
 async function getAuthToken() {
   const auth = new google.auth.GoogleAuth({
