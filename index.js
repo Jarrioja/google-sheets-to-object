@@ -9,7 +9,7 @@ const url =
 
 const spreadsheetId = url.match("(?<=/spreadsheets/d/)(.*)[/]")[1];
 
-const sheetName = "Hoja 1"; // Se requiere Nombre de la Hoja
+//const sheetName = "Hoja 1"; // Se requiere Nombre de la Hoja
 
 async function testGetSpreadSheet() {
   try {
@@ -18,10 +18,8 @@ async function testGetSpreadSheet() {
       spreadsheetId,
       auth,
     });
-    console.log(
-      "output for getSpreadSheet",
-      JSON.stringify(response.data.sheets, null, 2)
-    );
+    //console.log(response.data.sheets);
+    return response.data.sheets;
     // console.log(response.data.sheets[0].properties.title);
   } catch (err) {
     console.log(err.message, err.stack);
@@ -45,7 +43,7 @@ async function testGetSpreadSheetValues() {
   }
 }
 
-async function getColumns() {
+async function getColumns(sheetName) {
   const auth = await getAuthToken();
   const response = await getSpreadSheetValues({
     spreadsheetId,
@@ -62,8 +60,11 @@ async function getColumns() {
 }
 
 async function main() {
-  const columns = await getColumns();
+  const spreadsheet = await testGetSpreadSheet();
 
+  const sheetName = spreadsheet[0].properties.title;
+
+  const columns = await getColumns(sheetName);
   console.log(columns);
 }
 
